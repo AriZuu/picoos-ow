@@ -38,7 +38,7 @@ BUILD ?= RELEASE
 include $(RELROOT)make/common.mak
 
 TARGET = picoos-ow
-VPATH = ../../OneWire/common ../../development/OneWire/common
+VPATH = ../OneWire/common
 SRC_TXT =	crcutil.c	\
 		common/owerr.c	\
 		common/temp10.c	\
@@ -49,21 +49,20 @@ SRC_OBJ =
 CDEFINES += $(BSP_DEFINES)
 CDEFINES += SMALL_MEMORY_TARGET MAX_PORTNUM=1
 DIR_USRINC +=   ../picoos-micro \
-		../../OneWire/common \
-		../../development/OneWire/common
+		../OneWire/common
 
 ifeq '$(PORT)' 'unix'
 
-SRC_TXT +=	../../development/OneWire/lib/userial/Link/Linux/linuxlnk.c \
-		    ../../development/OneWire/lib/userial/owllu.c	\
-		    ../../development/OneWire/lib/userial/owsesu.c      \
-		    ../../development/OneWire/lib/userial/ds2480ut.c	\
-		    ../../development/OneWire/lib/userial/ownetu.c	\
-		    ../../development/OneWire/lib/userial/owtrnu.c
+SRC_TXT +=	../OneWire/lib/userial/Link/Linux/linuxlnk.c \
+		    ../OneWire/lib/userial/owllu.c	\
+		    ../OneWire/lib/userial/owsesu.c      \
+		    ../OneWire/lib/userial/ds2480ut.c	\
+		    ../OneWire/lib/userial/ownetu.c	\
+		    ../OneWire/lib/userial/owtrnu.c
 
 SRC_HDR += 	
 SRC_OBJ +=
-DIR_USRINC +=	../../development/OneWire/lib/userial 
+DIR_USRINC +=	../OneWire/lib/userial 
 
 else
 
@@ -89,8 +88,8 @@ dist:
 	cd ..; zip -qr dist/picoos-ow-`date +%Y%m%d`.zip picoos-ow -x "*/.*" "*/bin/*" "*.launch"
 
 dox: ../dox doxygen.cfg
-	awk -f convert-comments.awk < ../../development/OneWire/common/temp10.c >/tmp/temp10.h
-#	awk -f convert-comments.awk < ../../development/OneWire/lib/general/ownet.c >/tmp/ownet.c
+	awk -f convert-comments.awk < ../OneWire/common/temp10.c >/tmp/temp10.h
+#	awk -f convert-comments.awk < ../OneWire/lib/general/ownet.c >/tmp/ownet.c
 	doxygen doxygen.cfg
 	rm -f /tmp/temp10.h
 	
