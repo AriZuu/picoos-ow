@@ -88,6 +88,9 @@ dist:
 	rm -f ../dist/picoos-ow-`date +%Y%m%d`.zip
 	cd ..; zip -qr dist/picoos-ow-`date +%Y%m%d`.zip picoos-ow -x "*/.*" "*/bin/*" "*.launch"
 
-dox: dox/html doxygen.cfg
+dox: ../dox doxygen.cfg
+	awk -f convert-comments.awk < ../../development/OneWire/common/temp10.c >/tmp/temp10.h
+#	awk -f convert-comments.awk < ../../development/OneWire/lib/general/ownet.c >/tmp/ownet.c
 	doxygen doxygen.cfg
+	rm -f /tmp/temp10.h
 	

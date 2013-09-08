@@ -42,9 +42,11 @@
  * All communications is done via gpio bit banging.
  *
  * <b> Table Of Contents </b>
+ * - @ref api
  * - @ref config
  */
 
+/** @defgroup api   1-Wire API */
 /** @defgroup config   Configuration */
 
 #include "owcfg.h"
