@@ -37,7 +37,6 @@
 //
 
 #include "ownet.h"
-#include <lpc_reg.h>
 
 // local function prototypes
 SMALLINT owAcquire(int,char *);

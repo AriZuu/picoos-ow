@@ -39,17 +39,27 @@
 //           2.10 -> 3.00  Added owReadBitPower and owWriteBytePower
 //
 
-#include "lpc_reg.h"
 #include <picoos.h>
 #include "picoos-ow.h"
 
 #define OW_BIT (1<<OWCFG_GPIO_PIN)
 
+#ifdef __MSP430__
+#define OW_GET_IN()   ( (P2IN & OW_BIT) ? 1 : 0 )
+#define OW_OUT_LOW()  ( P2OUT &= ~OW_BIT )
+#define OW_OUT_HIGH() ( P2OUT |= OW_BIT )
+#define OW_DIR_IN()   ( P2DIR &= ~(OW_BIT) )
+#define OW_DIR_OUT()  ( P2DIR |= OW_BIT )
+#endif
+
+#ifdef __arm__
+#include "lpc_reg.h"
 #define OW_GET_IN()   ( (GPIO0_IOPIN & OW_BIT) ? 1 : 0 )
 #define OW_OUT_LOW()  ( GPIO0_IOCLR = OW_BIT )
 #define OW_OUT_HIGH() ( GPIO0_IOSET = OW_BIT )
 #define OW_DIR_IN()   ( GPIO0_IODIR &= ~(OW_BIT) )
 #define OW_DIR_OUT()  ( GPIO0_IODIR |= OW_BIT )
+#endif
 
 // exportable link-level functions
 SMALLINT owTouchReset(int);
@@ -257,6 +267,7 @@ SMALLINT owLevel(int portnum, SMALLINT new_level)
   }
 
    OW_DIR_IN();
+   OW_OUT_LOW();
    return MODE_NORMAL;
 }
 
