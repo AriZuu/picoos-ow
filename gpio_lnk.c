@@ -39,27 +39,7 @@
 //           2.10 -> 3.00  Added owReadBitPower and owWriteBytePower
 //
 
-#include <picoos.h>
 #include "picoos-ow.h"
-
-#define OW_BIT (1<<OWCFG_GPIO_PIN)
-
-#ifdef __MSP430__
-#define OW_GET_IN()   ( (P2IN & OW_BIT) ? 1 : 0 )
-#define OW_OUT_LOW()  ( P2OUT &= ~OW_BIT )
-#define OW_OUT_HIGH() ( P2OUT |= OW_BIT )
-#define OW_DIR_IN()   ( P2DIR &= ~(OW_BIT) )
-#define OW_DIR_OUT()  ( P2DIR |= OW_BIT )
-#endif
-
-#ifdef __arm__
-#include "lpc_reg.h"
-#define OW_GET_IN()   ( (GPIO0_IOPIN & OW_BIT) ? 1 : 0 )
-#define OW_OUT_LOW()  ( GPIO0_IOCLR = OW_BIT )
-#define OW_OUT_HIGH() ( GPIO0_IOSET = OW_BIT )
-#define OW_DIR_IN()   ( GPIO0_IODIR &= ~(OW_BIT) )
-#define OW_DIR_OUT()  ( GPIO0_IODIR |= OW_BIT )
-#endif
 
 // exportable link-level functions
 SMALLINT owTouchReset(int);
@@ -71,7 +51,6 @@ SMALLINT owSpeed(int,SMALLINT);
 SMALLINT owLevel(int,SMALLINT);
 SMALLINT owProgramPulse(int);
 void msDelay(int);
-long msGettick(void);
 SMALLINT hasPowerDelivery(int);
 SMALLINT hasOverDrive(int);
 SMALLINT hasProgramPulse(int);
@@ -96,23 +75,23 @@ SMALLINT owTouchReset(int portnum)
 
 // pull OW-Pin low for 480us
 
-   OW_OUT_LOW();
-   OW_DIR_OUT();
+   OWCFG_OUT_LOW();
+   OWCFG_DIR_OUT();
 	
    uosSpinUSecs(480);
 	
 // set Pin as input - wait for clients to pull low
 
-   OW_DIR_IN();
+   OWCFG_DIR_IN();
 	
    uosSpinUSecs(70);
-   err = OW_GET_IN();
+   err = OWCFG_READ_IN();
 	
 // after a delay the clients should release the line
 // and input-pin gets back to high due to pull-up-resistor
 
    uosSpinUSecs(480);
-   if( OW_GET_IN() == 0 )		// short circuit
+   if( OWCFG_READ_IN() == 0 )		// short circuit
       err = 1;
 	
    POS_SCHED_UNLOCK;
@@ -143,23 +122,23 @@ SMALLINT owTouchBit(int portnum, SMALLINT sendbit)
 
 // drive bus low
 
-   OW_DIR_OUT();
+   OWCFG_DIR_OUT();
    uosSpinUSecs(1);
 
 // if bit is 1 set bus high (by ext. pull-up)
 
    if (sendbit)
-      OW_DIR_IN();
+      OWCFG_DIR_IN();
 		
    uosSpinUSecs(15-1);
 
 // sample at end of read-timeslot
 
-   if (OW_GET_IN() == 0)
+   if (OWCFG_READ_IN() == 0)
       sendbit = 0;
 	
    uosSpinUSecs(60-15);
-   OW_DIR_IN();
+   OWCFG_DIR_IN();
 	
    POS_SCHED_UNLOCK;
    return sendbit;
@@ -261,13 +240,13 @@ SMALLINT owLevel(int portnum, SMALLINT new_level)
 {
   if (new_level == MODE_STRONG5) {
 
-    OW_OUT_HIGH();
-    OW_DIR_OUT();
+    OWCFG_OUT_HIGH();
+    OWCFG_DIR_OUT();
     return MODE_STRONG5;
   }
 
-   OW_DIR_IN();
-   OW_OUT_LOW();
+   OWCFG_DIR_IN();
+   OWCFG_OUT_LOW();
    return MODE_NORMAL;
 }
 
@@ -294,18 +273,6 @@ void msDelay(int len)
 {
    posTaskSleep(MS(len)); // XXX use HZ 
 }
-
-#if 0
-//--------------------------------------------------------------------------
-// Get the current millisecond tick count.  Does not have to represent
-// an actual time, it just needs to be an incrementing timer.
-//
-long msGettick(void)
-{
-   // add platform specific code here
-   return 0;
-}
-#endif
 
 //--------------------------------------------------------------------------
 // Send 8 bits of communication to the 1-Wire Net and verify that the

@@ -36,7 +36,8 @@
 //                         multiple ports.
 //
 
-#include "ownet.h"
+#include <picoos.h>
+#include "picoos-ow.h"
 
 // local function prototypes
 SMALLINT owAcquire(int,char *);
@@ -53,9 +54,8 @@ void     owRelease(int);
 //
 SMALLINT owAcquire(int portnum, char *port_zstr)
 {
-#ifdef __MSP430__
-  P2DIR |= BIT7;
-  P2OUT |= BIT7;
+#ifdef OWCFG_POWER_ON
+  OWCFG_POWER_ON();
 #endif
 	return owTouchReset(portnum);
 }
@@ -68,8 +68,8 @@ SMALLINT owAcquire(int portnum, char *port_zstr)
 //
 void owRelease(int portnum)
 {
-#ifdef __MSP430__
-  P2OUT &= ~BIT7;
+#ifdef OWCFG_POWER_OFF
+  OWCFG_POWER_OFF();
 #endif
 	/*  Nothing to do, we never give up on I/O			*/
 }

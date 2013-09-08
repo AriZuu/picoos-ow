@@ -69,7 +69,7 @@ else
 
 SRC_TXT +=	../../OneWire/lib/general/ownet.c		\
 		    ../../OneWire/lib/general/owtran.c \
-		    lpclnk.c lpcses.c
+		    gpio_lnk.c gpio_ses.c
 
 endif
 
