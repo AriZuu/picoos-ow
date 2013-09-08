@@ -52,7 +52,26 @@ DIR_USRINC +=   ../picoos-micro \
 		../../OneWire/common \
 		../../development/OneWire/common
 
--include ports/$(PORT)/Makefile
+ifeq '$(PORT)' 'unix'
+
+SRC_TXT +=	../../development/OneWire/lib/userial/Link/Linux/linuxlnk.c \
+		    ../../development/OneWire/lib/userial/owllu.c	\
+		    ../../development/OneWire/lib/userial/owsesu.c      \
+		    ../../development/OneWire/lib/userial/ds2480ut.c	\
+		    ../../development/OneWire/lib/userial/ownetu.c	\
+		    ../../development/OneWire/lib/userial/owtrnu.c
+
+SRC_HDR += 	
+SRC_OBJ +=
+DIR_USRINC +=	../../development/OneWire/lib/userial 
+
+else
+
+SRC_TXT +=	../../OneWire/lib/general/ownet.c		\
+		    ../../OneWire/lib/general/owtran.c \
+		    lpclnk.c lpcses.c
+
+endif
 
 ifeq '$(strip $(DIR_OUTPUT))' ''
 DIR_OUTPUT = $(CURRENTDIR)/bin
