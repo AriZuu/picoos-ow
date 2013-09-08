@@ -47,7 +47,7 @@ SRC_TXT =	crcutil.c	\
 SRC_HDR =	
 SRC_OBJ =
 CDEFINES += $(BSP_DEFINES)
-CDEFINES += SMALL_MEMORY_TARGET
+CDEFINES += SMALL_MEMORY_TARGET MAX_PORTNUM=1
 DIR_USRINC +=   ../picoos-micro \
 		../../OneWire/common \
 		../../development/OneWire/common
