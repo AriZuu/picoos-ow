@@ -29,23 +29,63 @@
  */
 
 /**
- * @file    picoos-ow.h
- * @brief   Include file of 1-Wire interface library for pico]OS
+ * @file    owcfg.h
+ * @brief   picoos-ow library configuration file
  * @author  Ari Suutari
  */
 
 /**
- * @mainpage picoos-ow - Maxim/Dallas 1-Wire interface library for pico]OS
- * @section overview Overview
- * This library contains routines from Maxim/Dallas
- * <a href="http://www.maximintegrated.com/products/ibutton/software/1wire/wirekit.cfm">public domain 1-wire kit</a>.
- * All communications is done via gpio bit banging.
- *
- * <b> Table Of Contents </b>
- * - @ref config
+ * @ingroup config
+ * @{
  */
 
-/** @defgroup config   Configuration */
+/**
+ * Configure GPIO operation to be used when library
+ * wants to read bus state.
+ */
+#define OWCFG_READ_IN()   ( (P2IN & BIT6) ? 1 : 0 )
 
-#include "owcfg.h"
-#include <ownet.h>
+/**
+ * Configure GPIO operation to be used when library
+ * wants to drive bus low.
+ */
+#define OWCFG_OUT_LOW()  ( P2OUT &= ~BIT6 )
+
+/**
+ * Configure GPIO operation to be used when library
+ * wants to drive bus high to deliver strong pull-up.
+ */
+#define OWCFG_OUT_HIGH() ( P2OUT |= BIT6 )
+
+/**
+ * Configure GPIO operation to be used when library
+ * wants to change bus pin into input (floating).
+ */
+#define OWCFG_DIR_IN()   ( P2DIR &= ~(BIT6) )
+
+/**
+ * Configure GPIO operation to be used when library
+ * wants to change bus pin into output (for driving
+ * it high or low).
+ */
+#define OWCFG_DIR_OUT()  ( P2DIR |= BIT6 )
+
+/**
+ * Configure GPIO operation to be used when library
+ * wants to turn power on for 1-Wire bus pull-up resistor.
+ * This is optional. If not configured, it is assumed
+ * that pull-up is always powered.
+ */
+#define OWCFG_POWER_ON()   P2DIR |= BIT7;  P2OUT |= BIT7
+
+/**
+ * Configure GPIO operation to be used when library
+ * wants to turn power off for 1-Wire bus pull-up resistor.
+ * This is optional. If not configured, it is assumed
+ * that pull-up is always powered.
+ *
+ * This can be used to save power in battery-powered systems.
+ */
+#define OWCFG_POWER_OFF()  P2OUT &= ~BIT7
+
+/** @} */

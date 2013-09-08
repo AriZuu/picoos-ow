@@ -79,9 +79,15 @@ endif
 
 include $(MAKE_LIB)
 
+.PHONY: dist dox
+
 #
 # Extra stuff to build distribution zip.
 #
 dist:
 	rm -f ../dist/picoos-ow-`date +%Y%m%d`.zip
 	cd ..; zip -qr dist/picoos-ow-`date +%Y%m%d`.zip picoos-ow -x "*/.*" "*/bin/*" "*.launch"
+
+dox: dox/html doxygen.cfg
+	doxygen doxygen.cfg
+	
