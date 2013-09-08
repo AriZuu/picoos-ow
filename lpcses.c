@@ -53,6 +53,10 @@ void     owRelease(int);
 //
 SMALLINT owAcquire(int portnum, char *port_zstr)
 {
+#ifdef __MSP430__
+  P2DIR |= BIT7;
+  P2OUT |= BIT7;
+#endif
 	return owTouchReset(portnum);
 }
 
@@ -64,6 +68,9 @@ SMALLINT owAcquire(int portnum, char *port_zstr)
 //
 void owRelease(int portnum)
 {
+#ifdef __MSP430__
+  P2OUT &= ~BIT7;
+#endif
 	/*  Nothing to do, we never give up on I/O			*/
 }
 
