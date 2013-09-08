@@ -249,10 +249,14 @@ SMALLINT owSpeed(int portnum, SMALLINT new_speed)
 //
 SMALLINT owLevel(int portnum, SMALLINT new_level)
 {
-   if (new_level == MODE_NORMAL ||
-       new_level == MODE_STRONG5)
-      return new_level;
+  if (new_level == MODE_STRONG5) {
 
+    OW_OUT_HIGH();
+    OW_DIR_OUT();
+    return MODE_STRONG5;
+  }
+
+   OW_DIR_IN();
    return MODE_NORMAL;
 }
 
