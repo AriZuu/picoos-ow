@@ -34,6 +34,11 @@
  * @author  Ari Suutari
  */
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif /* __cplusplus */
+
 /**
  * @mainpage picoos-ow - Maxim/Dallas 1-Wire interface library for pico]OS
  * @section overview Overview
@@ -51,3 +56,7 @@
 
 #include "owcfg.h"
 #include <ownet.h>
+ 
+#ifdef __cplusplus
+} // extern "C"
+#endif /* __cplusplus */
