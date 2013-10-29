@@ -41,14 +41,16 @@ extern "C"
 
 /**
  * @mainpage picoos-ow - Maxim/Dallas 1-Wire interface library for pico]OS
+ * <b> Table Of Contents </b>
+ * - @ref api
+ * - @ref config
+
  * @section overview Overview
  * This library contains routines from Maxim/Dallas
  * <a href="http://www.maximintegrated.com/products/ibutton/software/1wire/wirekit.cfm">public domain 1-wire kit</a>.
  * All communications is done via gpio bit banging.
  *
- * <b> Table Of Contents </b>
- * - @ref api
- * - @ref config
+ * Library has been modified to support newer DS18B20 chips.
  */
 
 /** @defgroup api   1-Wire API */
