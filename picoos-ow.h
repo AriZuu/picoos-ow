@@ -31,7 +31,7 @@
 /**
  * @file    picoos-ow.h
  * @brief   Include file of 1-Wire interface library for pico]OS
- * @author  Ari Suutari
+ * @author  Ari Suutari <ari@stonepile.fi>
  */
 
 #ifdef __cplusplus

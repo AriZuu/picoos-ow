@@ -31,7 +31,7 @@
 /**
  * @file    owcfg.h
  * @brief   picoos-ow library configuration file
- * @author  Ari Suutari
+ * @author  Ari Suutari <ari@stonepile.fi>
  */
 
 /**
