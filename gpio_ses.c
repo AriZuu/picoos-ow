@@ -57,7 +57,14 @@ SMALLINT owAcquire(int portnum, char *port_zstr)
 #ifdef OWCFG_POWER_ON
   OWCFG_POWER_ON();
 #endif
-	return owTouchReset(portnum);
+	if (owTouchReset(portnum))
+	  return TRUE;
+
+#ifdef OWCFG_POWER_OFF
+  OWCFG_POWER_OFF();
+#endif
+
+  return FALSE;
 }
 
 //---------------------------------------------------------------------------
