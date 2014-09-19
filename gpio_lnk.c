@@ -76,7 +76,9 @@ SMALLINT owTouchReset(int portnum)
 // pull OW-Pin low for 480us
 
    OWCFG_OUT_LOW();
+#ifdef OWCFG_DIR_OUT
    OWCFG_DIR_OUT();
+#endif
 	
    uosSpinUSecs(480);
 	
@@ -122,7 +124,10 @@ SMALLINT owTouchBit(int portnum, SMALLINT sendbit)
 
 // drive bus low
 
+   OWCFG_OUT_LOW();
+#ifdef OWCFG_DIR_OUT
    OWCFG_DIR_OUT();
+#endif
    uosSpinUSecs(1);
 
 // if bit is 1 set bus high (by ext. pull-up)
@@ -241,12 +246,13 @@ SMALLINT owLevel(int portnum, SMALLINT new_level)
   if (new_level == MODE_STRONG5) {
 
     OWCFG_OUT_HIGH();
+#ifdef OWCFG_DIR_OUT
     OWCFG_DIR_OUT();
+#endif
     return MODE_STRONG5;
   }
 
    OWCFG_DIR_IN();
-   OWCFG_OUT_LOW();
    return MODE_NORMAL;
 }
 

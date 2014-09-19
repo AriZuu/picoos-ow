@@ -47,28 +47,33 @@
 
 /**
  * Configure GPIO operation to be used when library
- * wants to drive bus low.
+ * wants to drive bus low. This operation should
+ * also put pin to output mode (note that order of
+ * changing pin value and direction is chip dependent).
  */
-#define OWCFG_OUT_LOW()  ( P2OUT &= ~BIT6 )
+#define OWCFG_OUT_LOW()  P2OUT &= ~BIT6; P2DIR |= BIT6
 
 /**
  * Configure GPIO operation to be used when library
  * wants to drive bus high to deliver strong pull-up.
+ * This operation should also put pin to output mode
+ * (note that order of changing pin value and direction is chip dependent).
  */
-#define OWCFG_OUT_HIGH() ( P2OUT |= BIT6 )
+#define OWCFG_OUT_HIGH() P2OUT |= BIT6; P2DIR |= BIT6
 
 /**
  * Configure GPIO operation to be used when library
  * wants to change bus pin into input (floating).
  */
-#define OWCFG_DIR_IN()   ( P2DIR &= ~(BIT6) )
+#define OWCFG_DIR_IN()   P2DIR &= ~(BIT6)
 
 /**
+ * @deprecated
  * Configure GPIO operation to be used when library
  * wants to change bus pin into output (for driving
  * it high or low).
  */
-#define OWCFG_DIR_OUT()  ( P2DIR |= BIT6 )
+#define OWCFG_DIR_OUT()  P2DIR |= BIT6
 
 /**
  * Configure GPIO operation to be used when library
