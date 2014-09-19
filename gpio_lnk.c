@@ -57,6 +57,10 @@ SMALLINT hasProgramPulse(int);
 SMALLINT owWriteBytePower(int,SMALLINT);
 SMALLINT owReadBitPower(int, SMALLINT);
 
+#ifdef OWCFG_DIR_OUT
+#warning Deprecated configuration macro in owcfg.h
+#endif
+
 //--------------------------------------------------------------------------
 // Reset all of the devices on the 1-Wire Net and return the result.
 //
