@@ -38,8 +38,8 @@ BUILD ?= RELEASE
 include $(RELROOT)make/common.mak
 
 TARGET = picoos-ow
-VPATH = ../OneWire/common
-SRC_TXT =	crcutil.c	\
+VPATH = ../OneWire
+SRC_TXT =	common/crcutil.c	\
 		common/owerr.c	\
 		common/temp10.c	\
 		common/findtype.c	
@@ -53,12 +53,12 @@ DIR_USRINC +=   ../OneWire/common
 
 ifeq '$(PORT)' 'unix'
 
-SRC_TXT +=	../OneWire/lib/userial/Link/Linux/linuxlnk.c \
-		    ../OneWire/lib/userial/owllu.c	\
-		    ../OneWire/lib/userial/owsesu.c      \
-		    ../OneWire/lib/userial/ds2480ut.c	\
-		    ../OneWire/lib/userial/ownetu.c	\
-		    ../OneWire/lib/userial/owtrnu.c
+SRC_TXT +=	lib/userial/Link/Linux/linuxlnk.c \
+		    lib/userial/owllu.c	\
+		    lib/userial/owsesu.c      \
+		    lib/userial/ds2480ut.c	\
+		    lib/userial/ownetu.c	\
+		    lib/userial/owtrnu.c
 
 SRC_HDR += 	
 SRC_OBJ +=
@@ -66,8 +66,8 @@ DIR_USRINC +=	../OneWire/lib/userial
 
 else
 
-SRC_TXT +=	../../OneWire/lib/general/ownet.c		\
-		    ../../OneWire/lib/general/owtran.c \
+SRC_TXT +=	lib/general/ownet.c		\
+		    lib/general/owtran.c \
 		    gpio_lnk.c gpio_ses.c
 
 endif
@@ -93,4 +93,3 @@ dox: doxygen.cfg
 	mkdir -p doc
 	doxygen doxygen.cfg
 	rm -f /tmp/temp10.h
-	
