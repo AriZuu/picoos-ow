@@ -59,6 +59,8 @@ extern "C"
 #include "owcfg.h"
 #include <ownet.h>
  
+void owInit(void);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif /* __cplusplus */
