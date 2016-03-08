@@ -42,7 +42,9 @@
 // local function prototypes
 SMALLINT owAcquire(int,char *);
 void     owRelease(int);
+#if POSCFG_FEATURE_MUTEXES != 0
 static POSMUTEX_t owMutex = NULL;
+#endif
 
 //---------------------------------------------------------------------------
 // Attempt to acquire a 1-Wire net
@@ -57,10 +59,13 @@ SMALLINT owAcquire(int portnum, char *port_zstr)
 {
   P_ASSERT("bad 1-wire port", portnum == 0);
 
+#if POSCFG_FEATURE_MUTEXES != 0
   if (owMutex == NULL) // We assume that this is called from main thread first time.
     owMutex = posMutexCreate();
 
   posMutexLock(owMutex);
+#endif
+
 #ifdef OWCFG_POWER_ON
   OWCFG_POWER_ON();
 #endif
@@ -71,7 +76,9 @@ SMALLINT owAcquire(int portnum, char *port_zstr)
   OWCFG_POWER_OFF();
 #endif
 
+#if POSCFG_FEATURE_MUTEXES != 0
   posMutexUnlock(owMutex);
+#endif
   return FALSE;
 }
 
@@ -87,6 +94,8 @@ void owRelease(int portnum)
 #ifdef OWCFG_POWER_OFF
   OWCFG_POWER_OFF();
 #endif
+#if POSCFG_FEATURE_MUTEXES != 0
   posMutexUnlock(owMutex);
+#endif
 }
 
