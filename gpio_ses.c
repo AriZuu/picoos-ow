@@ -49,7 +49,7 @@ static POSMUTEX_t owMutex = NULL;
 void owInit()
 {
 #if POSCFG_FEATURE_MUTEXES != 0
-  owMutex = posMutexCreate();
+  owMutex = nosMutexCreate(0, "ow");
 #endif
 }
 
@@ -67,7 +67,7 @@ SMALLINT owAcquire(int portnum, char *port_zstr)
   P_ASSERT("bad 1-wire port", portnum == 0);
 
 #if POSCFG_FEATURE_MUTEXES != 0
-  posMutexLock(owMutex);
+  nosMutexLock(owMutex);
 #endif
 
 #ifdef OWCFG_POWER_ON
@@ -81,7 +81,7 @@ SMALLINT owAcquire(int portnum, char *port_zstr)
 #endif
 
 #if POSCFG_FEATURE_MUTEXES != 0
-  posMutexUnlock(owMutex);
+  nosMutexUnlock(owMutex);
 #endif
   return FALSE;
 }
@@ -99,7 +99,7 @@ void owRelease(int portnum)
   OWCFG_POWER_OFF();
 #endif
 #if POSCFG_FEATURE_MUTEXES != 0
-  posMutexUnlock(owMutex);
+  nosMutexUnlock(owMutex);
 #endif
 }
 
